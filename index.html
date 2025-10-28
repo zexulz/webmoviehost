@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zex.mp4 - Cinematic Experience</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a16;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        
+        header {
+            background: linear-gradient(to bottom, #0a0a16, rgba(10, 10, 22, 0.8));
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: rgba(25, 25, 45, 0.8);
+            border-radius: 30px;
+            padding: 8px 15px;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-container:focus-within {
+            border-color: #8a2be2;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 100%;
+            padding: 5px 10px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-container i {
+            color: #8a2be2;
+            margin-right: 5px;
+        }
+
+        
+        .hero {
+            padding: 60px 5%;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(138, 43, 226, 0.2), transparent 60%);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #b8b8d0;
+        }
+
+        
+        .carousel-section {
+            padding: 30px 5% 60px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            margin-left: 15px;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0 30px;
+            scrollbar-width: none; 
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none; 
+        }
+
+        .movie-card {
+            flex: 0 0 auto;
+            width: 250px;
+            background: rgba(25, 25, 45, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.3);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-rating {
+            color: #ffcc00;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .movie-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 22, 0.9);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+
+        .movie-card:hover .movie-overlay {
+            opacity: 1;
+        }
+
+        .movie-description {
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 70%;
+            overflow: hidden;
+        }
+
+        
+        .movie-details {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(138, 43, 226, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+        }
+
+        .back-button:hover {
+            background: rgba(138, 43, 226, 0.4);
+            transform: translateX(-5px);
+        }
+
+        .movie-details-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .movie-details-poster {
+            flex: 0 0 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-details-poster img {
+            width: 100%;
+            display: block;
+        }
+
+        .movie-details-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .movie-details-title {
+            font-size: 36px;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .movie-details-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #ffcc00;
+        }
+
+        .movie-details-description {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #b8b8d0;
+        }
+
+        
+        footer {
+            background: rgba(10, 10, 22, 0.9);
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #8a2be2;
+        }
+
+        .copyright {
+            color: #6c6c8a;
+            font-size: 14px;
+        }
+
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .movie-card {
+                width: 200px;
+            }
+
+            .movie-poster {
+                height: 280px;
+            }
+
+            .movie-details-container {
+                flex-direction: column;
+            }
+
+            .movie-details-poster {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .movie-card {
+                width: 160px;
+            }
+
+            .movie-poster {
+                height: 220px;
+            }
+
+            .movie-title {
+                font-size: 16px;
+            }
+        }
+
+        
+        .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(25, 25, 45, 0.8);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .scroll-btn:hover {
+            opacity: 1;
+            background: rgba(138, 43, 226, 0.8);
+        }
+
+        .scroll-left {
+            left: 10px;
+        }
+
+        .scroll-right {
+            right: 10px;
+        }
+
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #6c6c8a;
+            font-size: 18px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <
+    <header>
+        <div class="logo">Zex.mp4</div>
+        <div class="search-container">
+            <i>$</i>
+            <input type="text" id="searchInput" placeholder="Search for movies...">
+        </div>
+    </header>
+
+    
+    <section class="hero">
+        <h1>Discover Your Next Favorite Movie</h1>
+        <p>Explore our curated collection of cinematic masterpieces, from timeless classics to modern blockbusters.</p>
+    </section>
+
+    <!-- Movie Carousel Section -->
+    <section class="carousel-section">
+        <h2 class="section-title">Featured Movies</h2>
+        <div class="carousel-container">
+            <button class="scroll-btn scroll-left">❮</button>
+            <div class="carousel" id="movieCarousel">
+                <!-- Movie cards will be generated by JavaScript -->
+            </div>
+            <button class="scroll-btn scroll-right">❯</button>
+        </div>
+        <div class="no-results" id="noResults">
+            No movies found matching your search.
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Zex.mp4</div>
+        <div class="footer-links">
+          <!--
+            <a href="#">Home</a>
+            <a href="#">Movies</a>
+            <a href="#">TV Shows</a>
+            <a href="#">My List</a>
+            <a href="#">About</a>
+            -->
+        </div>
+        <div class="copyright">© 2025 Zex.mp4. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Movie data
+        const movies = [
+            {
+                id: 1,
+                title: "Cosmic Odyssey",
+                rating: 8.7,
+                poster: "https://via.placeholder.com/250x350/1a1a2e/ffffff?text=Cosmic+Odyssey",
+                description: "An epic space adventure following a crew of explorers as they journey to the edge of the known universe."
+            },
+            {
+                id: 2,
+                title: "Neon Dreams",
+                rating: 7.9,
+                poster: "https://via.placeholder.com/250x350/16213e/ffffff?text=Neon+Dreams",
+                description: "A cyberpunk thriller set in a dystopian future where reality and virtual worlds collide."
+            },
+            {
+                id: 3,
+                title: "Midnight Run",
+                rating: 8.2,
+                poster: "https://via.placeholder.com/250x350/0f3460/ffffff?text=Midnight+Run",
+                description: "A high-octane action film about a getaway driver pulled into one last heist."
+            },
+            {
+                id: 4,
+                title: "Echoes of Silence",
+                rating: 8.9,
+                poster: "https://via.placeholder.com/250x350/533483/ffffff?text=Echoes+of+Silence",
+                description: "A psychological drama exploring the complexities of memory and identity."
+            },
+            {
+                id: 5,
+                title: "Crimson Peak",
+                rating: 7.5,
+                poster: "https://via.placeholder.com/250x350/1a1a2e/ffffff?text=Crimson+Peak",
+                description: "A gothic horror story set in a remote mansion with dark secrets."
+            },
+            {
+                id: 6,
+                title: "Quantum Paradox",
+                rating: 8.4,
+                poster: "https://via.placeholder.com/250x350/16213e/ffffff?text=Quantum+Paradox",
+                description: "A mind-bending sci-fi exploring alternate realities and the nature of time."
+            },
+            {
+                id: 7,
+                title: "Shadow Protocol",
+                rating: 7.8,
+                poster: "https://via.placeholder.com/250x350/0f3460/ffffff?text=Shadow+Protocol",
+                description: "Espionage thriller following elite agents on a mission to prevent global catastrophe."
+            },
+            {
+                id: 8,
+                title: "Aetherium",
+                rating: 8.1,
+                poster: "https://via.placeholder.com/250x350/533483/ffffff?text=Aetherium",
+                description: "Fantasy adventure in a world where magic and technology coexist."
+            },
+            {
+                id: 9,
+                title: "The Last Frontier",
+                rating: 8.6,
+                poster: "https://via.placeholder.com/250x350/1a1a2e/ffffff?text=The+Last+Frontier",
+                description: "Post-apocalyptic survival story set in a world reclaimed by nature."
+            },
+            {
+                id: 10,
+                title: "Velvet Noir",
+                rating: 7.7,
+                poster: "https://via.placeholder.com/250x350/16213e/ffffff?text=Velvet+Noir",
+                description: "A stylish neo-noir mystery set in the underground clubs of a futuristic city."
+            },
+            {
+                id: 11,
+                title: "Chrono Trigger",
+                rating: 8.3,
+                poster: "https://via.placeholder.com/250x350/0f3460/ffffff?text=Chrono+Trigger",
+                description: "Time travel adventure about a scientist who accidentally changes the course of history."
+            },
+            {
+                id: 12,
+                title: "Solar Flare",
+                rating: 7.6,
+                poster: "https://via.placeholder.com/250x350/533483/ffffff?text=Solar+Flare",
+                description: "Disaster film following humanity's struggle to survive after a massive solar event."
+            },
+            {
+                id: 13,
+                title: "Midnight in Paris",
+                rating: 8.0,
+                poster: "https://via.placeholder.com/250x350/1a1a2e/ffffff?text=Midnight+in+Paris",
+                description: "Romantic fantasy about a writer who finds himself transported to 1920s Paris each night."
+            },
+            {
+                id: 14,
+                title: "The Architect",
+                rating: 8.5,
+                poster: "https://via.placeholder.com/250x350/16213e/ffffff?text=The+Architect",
+                description: "Mind-bending thriller about a brilliant architect who designs impossible structures."
+            },
+            {
+                id: 15,
+                title: "Echo Chamber",
+                rating: 7.4,
+                poster: "https://via.placeholder.com/250x350/0f3460/ffffff?text=Echo+Chamber",
+                description: "Social commentary drama exploring the effects of technology on human connection."
+            }
+        ];
+
+        // DOM elements
+        const movieCarousel = document.getElementById('movieCarousel');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const scrollLeftBtn = document.querySelector('.scroll-left');
+        const scrollRightBtn = document.querySelector('.scroll-right');
+
+        // Initialize the carousel
+        function initializeCarousel() {
+            movieCarousel.innerHTML = '';
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+                    <div class="movie-info">
+                        <h3 class="movie-title">${movie.title}</h3>
+                        <div class="movie-rating">⭐ ${movie.rating}/10</div>
+                    </div>
+                    <div class="movie-overlay">
+                        <h3>${movie.title}</h3>
+                        <p class="movie-description">${movie.description}</p>
+                    </div>
+                `;
+                movieCard.addEventListener('click', () => {
+                    // this will work ltr
+                    alert(`Redirecting to ${movie.title} details page`);
+                });
+                movieCarousel.appendChild(movieCard);
+            });
+        }
+
+        // gay filter thing
+        function filterMovies() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const movieCards = document.querySelectorAll('.movie-card');
+            let visibleCount = 0;
+            
+            movieCards.forEach(card => {
+                const title = card.querySelector('.movie-title').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // msg
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // Scroll carousel
+        function scrollCarousel(direction) {
+            const scrollAmount = 300;
+            movieCarousel.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', filterMovies);
+        scrollLeftBtn.addEventListener('click', () => scrollCarousel('left'));
+        scrollRightBtn.addEventListener('click', () => scrollCarousel('right'));
+
+        // Initialize the page
+        initializeCarousel();
+    </script>
+</body>
+</html>
