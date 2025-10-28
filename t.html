@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Movie Player</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0d0d0d;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-weight: normal;
+      text-shadow: 0 0 10px rgba(255,255,255,0.2);
+    }
+
+    video {
+      max-width: 90%;
+      width: 800px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.6);
+      background: #000;
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      padding: 10px 18px;
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎬 My Movie Player</h1>
+
+  <video id="player" controls preload="auto" poster="">
+    <!-- Make sure this path is correct -->
+    <source src="movies/my-movie.mp4" type="video/mp4">
+    Sorry, your browser doesn’t support the video tag.
+  </video>
+
+  <div class="controls">
+    <button id="playBtn">▶ Play</button>
+    <button id="pauseBtn">⏸ Pause</button>
+    <button id="restartBtn">⏮ Restart</button>
+  </div>
+
+  <script>
+    const player = document.getElementById('player');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const restartBtn = document.getElementById('restartBtn');
+
+    playBtn.addEventListener('click', () => player.play());
+    pauseBtn.addEventListener('click', () => player.pause());
+    restartBtn.addEventListener('click', () => {
+      player.pause();
+      player.currentTime = 0;
+      player.play();
+    });
+
+    // Optional: log errors to console
+    player.addEventListener('error', (e) => {
+      console.error('Video error:', e);
+      alert('Could not load the video. Check the file path or format.');
+    });
+  </script>
+</body>
+</html>
