@@ -1,1 +1,92 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zex Playerr</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0d0d0d;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-weight: normal;
+      text-shadow: 0 0 10px rgba(255,255,255,0.2);
+    }
+
+    iframe {
+      width: 800px;
+      max-width: 90%;
+      height: 450px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      padding: 10px 18px;
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎬 Zex Player</h1>
+
+  <!-- YouTube iframe embed -->
+  <iframe id="iframe" loading="lazy" src="https://vidmoly.net/embed-fti3lwbralta.html" scrolling="no" frameborder="0" marginwidth="0" marginheight="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="" style="display: inline;"></iframe>
+
+  <div class="controls">
+    <button id="playBtn">▶ Play</button>
+    <button id="pauseBtn">⏸ Pause</button>
+  </div>
+
+  <script>
+    // YouTube IFrame API integration
+    let player;
+
+    // Load the YouTube IFrame Player API script
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player');
+    }
+
+    // Control buttons
+    document.getElementById('playBtn').addEventListener('click', () => {
+      if (player && player.playVideo) player.playVideo();
+    });
+
+    document.getElementById('pauseBtn').addEventListener('click', () => {
+      if (player && player.pauseVideo) player.pauseVideo();
+    });
+  </script>
+</body>
+</html>
