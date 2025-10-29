@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zex.mp4 - Cinematic Experience</title>
     <style>
-        
+        /* Css */
         * {
             margin: 0;
             padding: 0;
@@ -25,7 +25,6 @@
             color: inherit;
         }
 
-        
         header {
             background: linear-gradient(to bottom, #0a0a16, rgba(10, 10, 22, 0.8));
             padding: 20px 5%;
@@ -79,7 +78,6 @@
             margin-right: 5px;
         }
 
-        
         .hero {
             padding: 60px 5%;
             text-align: center;
@@ -101,7 +99,6 @@
             color: #b8b8d0;
         }
 
-        
         .carousel-section {
             padding: 30px 5% 60px;
         }
@@ -211,7 +208,6 @@
             overflow: hidden;
         }
 
-        
         .movie-details {
             padding: 60px 5%;
             max-width: 1200px;
@@ -279,7 +275,6 @@
             color: #b8b8d0;
         }
 
-        
         footer {
             background: rgba(10, 10, 22, 0.9);
             padding: 40px 5%;
@@ -318,7 +313,6 @@
             font-size: 14px;
         }
 
-        
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -376,7 +370,6 @@
             }
         }
 
-        
         .scroll-btn {
             position: absolute;
             top: 50%;
@@ -409,7 +402,6 @@
             right: 10px;
         }
 
-        
         .no-results {
             text-align: center;
             padding: 40px;
@@ -420,7 +412,6 @@
     </style>
 </head>
 <body>
-    
     <header>
         <div class="logo">Zex.mp4</div>
         <div class="search-container">
@@ -429,7 +420,6 @@
         </div>
     </header>
 
-    
     <section class="hero">
         <h1>Discover Your Next Favorite Movie</h1>
         <p>Explore our curated collection of cinematic masterpieces, from timeless classics to modern blockbusters.</p>
@@ -466,108 +456,121 @@
     </footer>
 
     <script>
-        // Movie data
+        // Movie data with individual links
         const movies = [
-  {
-    id: 1,
-    title: "The Black Phone 2",
-    rating: 7.8,
-    poster: "https://popped.blog/wp-content/uploads/2025/10/black_phone_2_mobile.jpg",
-    description: "A chilling continuation of the horror hit, where new voices from beyond the grave demand to be heard."
-  },
-  {
-    id: 2,
-    title: "Scream",
-    rating: 7.4,
-    poster: "https://i.etsystatic.com/39815611/r/il/6ee24f/4541991601/il_fullxfull.4541991601_o88k.jpg",
-    description: "The original slasher classic where a masked killer terrorizes a small town with deadly phone calls."
-  },
-  {
-    id: 3,
-    title: "Scary Movie",
-    rating: 6.2,
-    poster: "https://a.ltrbxd.com/resized/film-poster/4/9/4/4/3/49443-scary-movie-0-230-0-345-crop.jpg?v=c949a2d091",
-    description: "A hilarious parody that pokes fun at classic horror tropes and slasher clichés."
-  },
-  {
-    id: 4,
-    title: "Scary Movie 2",
-    rating: 5.3,
-    poster: "https://m.media-amazon.com/images/S/pv-target-images/b255478b652375c07ca571f642f883431dbd7aca94bb951c6500cbe2985e0a72.jpg",
-    description: "The outrageous sequel where a group of teens investigate a haunted mansion with chaotic results."
-  },
-  {
-    id: 5,
-    title: "Interstellar",
-    rating: 8.6,
-    poster: "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg",
-    description: "A breathtaking space epic exploring love, time, and the survival of humanity among the stars."
-  },
-  {
-    id: 6,
-    title: "The Godfather",
-    rating: 9.2,
-    poster: "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
-    description: "The legendary crime saga following the powerful Corleone family and their empire."
-  },
-  {
-    id: 7,
-    title: "The Godfather Part II",
-    rating: 9.0,
-    poster: "http://www.imfdb.org/images/7/78/TheGodfatherPartII1974.jpg",
-    description: "A masterful continuation of the Corleone story, exploring legacy, loyalty, and power."
-  },
-  {
-    id: 8,
-    title: "The Shawshank Redemption",
-    rating: 9.3,
-    poster: "https://originalvintagemovieposters.com/wp-content/uploads/2015/05/Shawshank-Redemption-3205LB.jpg",
-    description: "A moving story of hope and friendship within the walls of a brutal prison."
-  },
-  {
-    id: 9,
-    title: "Minecraft Movie",
-    rating: 7.5,
-    poster: "https://image.tmdb.org/t/p/original/qCLxFlrs5htcc8se1AqhetHCraI.jpg",
-    description: "A live-action adventure inspired by the blocky world of creativity and survival."
-  },
-  {
-    id: 10,
-    title: "The Shining",
-    rating: 8.4,
-    poster: "https://www.themoviedb.org/t/p/original/ji94IIScMTk0SARR3XIgBgLjuYB.jpg",
-    description: "A psychological horror masterpiece set in an isolated hotel haunted by madness and ghosts."
-  },
-  {
-    id: 11,
-    title: "No Country for Old Men",
-    rating: 8.1,
-    poster: "https://www.themoviedb.org/t/p/original/9oikl0CiefCKJXl9yuy9Yq8E9Z.jpg",
-    description: "A tense neo-western thriller about fate, violence, and moral decay in the American desert."
-  },
-  {
-    id: 12,
-    title: "Spider-Man: Into the Spider-Verse",
-    rating: 8.4,
-    poster: "https://wallpapers.com/images/hd/spider-man-into-the-spider-verse-cool-poster-wnb6jid6d3rhlanc.jpg",
-    description: "A visually stunning animated adventure across multiple universes of Spider-Men and women."
-  },
-  {
-    id: 13,
-    title: "Prisoners",
-    rating: 7.5,
-    poster: "http://a4.mzstatic.com/us/r30/Video4/v4/14/5d/a9/145da9f5-32ee-a87f-4e31-9156697f177e/mza_3275888540361420431.jpg",
-    description: "A gripping story of a man trapped in a mysterious village where nothing is as it seems."
-  },
-  {
-    id: 14,
-    title: "The Thomas Crown Affair",
-    rating: 6.9,
-    poster: "https://i.pinimg.com/originals/18/be/7b/18be7b27f3e7a21e26720435dad8a992.jpg",
-    description: "A sleek cat-and-mouse thriller about a wealthy art thief and the woman determined to catch him."
-  }
-];
-
+            {
+                id: 1,
+                title: "The Black Phone 2",
+                rating: 7.8,
+                poster: "https://popped.blog/wp-content/uploads/2025/10/black_phone_2_mobile.jpg",
+                description: "A chilling continuation of the horror hit, where new voices from beyond the grave demand to be heard.",
+                link: "https://example.com/blackphone2"
+            },
+            {
+                id: 2,
+                title: "Scream",
+                rating: 7.4,
+                poster: "https://i.etsystatic.com/39815611/r/il/6ee24f/4541991601/il_fullxfull.4541991601_o88k.jpg",
+                description: "The original slasher classic where a masked killer terrorizes a small town with deadly phone calls.",
+                link: "https://example.com/scream"
+            },
+            {
+                id: 3,
+                title: "Scary Movie",
+                rating: 6.2,
+                poster: "https://a.ltrbxd.com/resized/film-poster/4/9/4/4/3/49443-scary-movie-0-230-0-345-crop.jpg?v=c949a2d091",
+                description: "A hilarious parody that pokes fun at classic horror tropes and slasher clichés.",
+                link: "https://example.com/scarymovie"
+            },
+            {
+                id: 4,
+                title: "Scary Movie 2",
+                rating: 5.3,
+                poster: "https://m.media-amazon.com/images/S/pv-target-images/b255478b652375c07ca571f642f883431dbd7aca94bb951c6500cbe2985e0a72.jpg",
+                description: "The outrageous sequel where a group of teens investigate a haunted mansion with chaotic results.",
+                link: "https://example.com/scarymovie2"
+            },
+            {
+                id: 5,
+                title: "Interstellar",
+                rating: 8.6,
+                poster: "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg",
+                description: "A breathtaking space epic exploring love, time, and the survival of humanity among the stars.",
+                link: "https://example.com/interstellar"
+            },
+            {
+                id: 6,
+                title: "The Godfather",
+                rating: 9.2,
+                poster: "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
+                description: "The legendary crime saga following the powerful Corleone family and their empire.",
+                link: "https://example.com/godfather"
+            },
+            {
+                id: 7,
+                title: "The Godfather Part II",
+                rating: 9.0,
+                poster: "http://www.imfdb.org/images/7/78/TheGodfatherPartII1974.jpg",
+                description: "A masterful continuation of the Corleone story, exploring legacy, loyalty, and power.",
+                link: "https://example.com/godfather2"
+            },
+            {
+                id: 8,
+                title: "The Shawshank Redemption",
+                rating: 9.3,
+                poster: "https://originalvintagemovieposters.com/wp-content/uploads/2015/05/Shawshank-Redemption-3205LB.jpg",
+                description: "A moving story of hope and friendship within the walls of a brutal prison.",
+                link: "https://example.com/shawshank"
+            },
+            {
+                id: 9,
+                title: "Minecraft Movie",
+                rating: 7.5,
+                poster: "https://image.tmdb.org/t/p/original/qCLxFlrs5htcc8se1AqhetHCraI.jpg",
+                description: "A live-action adventure inspired by the blocky world of creativity and survival.",
+                link: "https://example.com/minecraft"
+            },
+            {
+                id: 10,
+                title: "The Shining",
+                rating: 8.4,
+                poster: "https://www.themoviedb.org/t/p/original/ji94IIScMTk0SARR3XIgBgLjuYB.jpg",
+                description: "A psychological horror masterpiece set in an isolated hotel haunted by madness and ghosts.",
+                link: "https://example.com/shining"
+            },
+            {
+                id: 11,
+                title: "No Country for Old Men",
+                rating: 8.1,
+                poster: "https://www.themoviedb.org/t/p/original/9oikl0CiefCKJXl9yuy9Yq8E9Z.jpg",
+                description: "A tense neo-western thriller about fate, violence, and moral decay in the American desert.",
+                link: "https://example.com/nocountry"
+            },
+            {
+                id: 12,
+                title: "Spider-Man: Into the Spider-Verse",
+                rating: 8.4,
+                poster: "https://wallpapers.com/images/hd/spider-man-into-the-spider-verse-cool-poster-wnb6jid6d3rhlanc.jpg",
+                description: "A visually stunning animated adventure across multiple universes of Spider-Men and women.",
+                link: "https://example.com/spiderverse"
+            },
+            {
+                id: 13,
+                title: "Prisoners",
+                rating: 7.5,
+                poster: "http://a4.mzstatic.com/us/r30/Video4/v4/14/5d/a9/145da9f5-32ee-a87f-4e31-9156697f177e/mza_3275888540361420431.jpg",
+                description: "A gripping story of a man trapped in a mysterious village where nothing is as it seems.",
+                link: "https://example.com/prisoners"
+            },
+            {
+                id: 14,
+                title: "The Thomas Crown Affair",
+                rating: 6.9,
+                poster: "https://i.pinimg.com/originals/18/be/7b/18be7b27f3e7a21e26720435dad8a992.jpg",
+                description: "A sleek cat-and-mouse thriller about a wealthy art thief and the woman determined to catch him.",
+                link: "https://example.com/thomascrown"
+            }
+        ];
 
         // DOM elements
         const movieCarousel = document.getElementById('movieCarousel');
@@ -593,15 +596,15 @@
                         <p class="movie-description">${movie.description}</p>
                     </div>
                 `;
+                // Add click event to redirect to the movie's specific link
                 movieCard.addEventListener('click', () => {
-                    // this will work ltr
-                    alert(`Redirecting to ${movie.title} details page`);
+                    window.location.href = movie.link;
                 });
                 movieCarousel.appendChild(movieCard);
             });
         }
 
-        // gay filter thing
+        // Filter movies based on search
         function filterMovies() {
             const searchTerm = searchInput.value.toLowerCase();
             const movieCards = document.querySelectorAll('.movie-card');
@@ -617,7 +620,7 @@
                 }
             });
             
-            // msg
+            // Show no results message if needed
             noResults.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
