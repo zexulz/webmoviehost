@@ -208,6 +208,12 @@
             overflow: hidden;
         }
 
+        .movie-meta {
+            font-size: 12px;
+            color: #b8b8d0;
+            margin-top: 10px;
+        }
+
         .movie-details {
             padding: 60px 5%;
             max-width: 1200px;
@@ -452,6 +458,15 @@
             cursor: pointer;
             margin-top: 10px;
         }
+        
+        .local-mode-notice {
+            background: rgba(138, 43, 226, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -466,28 +481,38 @@
     <section class="hero">
         <h1>Discover Your Next Favorite Movie</h1>
         <p>Explore our curated collection of cinematic masterpieces, from timeless classics to modern blockbusters.</p>
+        
+        <div class="local-mode-notice" id="localModeNotice" style="display: none;">
+            <strong>Local Mode Active:</strong> This website is using demo data. To connect to your Jellyfin server, 
+            <a href="#" onclick="showConfig()" style="color: #8a2be2; text-decoration: underline;">configure your server settings</a>.
+        </div>
     </section>
 
     <!-- Configuration Panel -->
-    <section class="carousel-section" id="configSection">
+    <section class="carousel-section" id="configSection" style="display: none;">
         <h2 class="section-title">Jellyfin Server Configuration</h2>
         <div class="config-panel">
             <p>Enter your Jellyfin server details below:</p>
-            <input type="text" id="serverUrl" class="config-input" placeholder="Jellyfin Server URL (e.g., https://your-domain.com)" value="http://192.168.1.71:8096">
+            <input type="text" id="serverUrl" class="config-input" placeholder="Jellyfin Server URL (e.g., http://192.168.1.71:8096)" value="http://192.168.1.71:8096">
             <input type="text" id="apiKey" class="config-input" placeholder="API Key" value="d9d10f277bae453196b691ec31061984">
             <button id="saveConfig" class="config-button">Save Configuration & Load Movies</button>
             <div id="configStatus" style="margin-top: 10px; color: #8a2be2;"></div>
+            
+            <div style="margin-top: 20px; font-size: 14px; color: #b8b8d0;">
+                <strong>Note:</strong> If your Jellyfin server is on a local network, this website must be hosted locally to access it.
+                For remote access, consider using services like Cloudflare Tunnel or setting up a reverse proxy.
+            </div>
         </div>
     </section>
 
     <!-- Movie Carousel Section -->
-    <section class="carousel-section" id="moviesSection" style="display: none;">
+    <section class="carousel-section" id="moviesSection">
         <h2 class="section-title">Featured Movies</h2>
         <div class="carousel-container">
             <button class="scroll-btn scroll-left">❮</button>
             <div class="carousel" id="movieCarousel">
                 <div class="loading" id="loadingIndicator">
-                    Loading movies from Jellyfin...
+                    Loading movies...
                 </div>
             </div>
             <button class="scroll-btn scroll-right">❯</button>
@@ -500,7 +525,9 @@
     <!-- Footer -->
     <footer>
         <div class="footer-logo">Zex.mp4</div>
-        <div class="footer-links"></div>
+        <div class="footer-links">
+            <a href="#" onclick="showConfig()">Server Settings</a>
+        </div>
         <div class="copyright">© 2025 Zex.mp4. All rights reserved.</div>
     </footer>
 
@@ -525,6 +552,65 @@
         const apiKeyInput = document.getElementById('apiKey');
         const saveConfigBtn = document.getElementById('saveConfig');
         const configStatus = document.getElementById('configStatus');
+        const localModeNotice = document.getElementById('localModeNotice');
+
+        // Demo movie data (fallback when Jellyfin is not accessible)
+        const demoMovies = [
+            {
+                id: 1,
+                title: "The Black Phone 2",
+                rating: 7.8,
+                poster: "https://popped.blog/wp-content/uploads/2025/10/black_phone_2_mobile.jpg",
+                description: "A chilling continuation of the horror hit, where new voices from beyond the grave demand to be heard.",
+                year: "2025",
+                genre: "Horror, Thriller"
+            },
+            {
+                id: 2,
+                title: "Scream",
+                rating: 7.4,
+                poster: "https://i.etsystatic.com/39815611/r/il/6ee24f/4541991601/il_fullxfull.4541991601_o88k.jpg",
+                description: "The original slasher classic where a masked killer terrorizes a small town with deadly phone calls.",
+                year: "1996",
+                genre: "Horror, Mystery"
+            },
+            {
+                id: 3,
+                title: "Interstellar",
+                rating: 8.6,
+                poster: "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg",
+                description: "A breathtaking space epic exploring love, time, and the survival of humanity among the stars.",
+                year: "2014",
+                genre: "Adventure, Drama, Sci-Fi"
+            },
+            {
+                id: 4,
+                title: "The Godfather",
+                rating: 9.2,
+                poster: "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
+                description: "The legendary crime saga following the powerful Corleone family and their empire.",
+                year: "1972",
+                genre: "Crime, Drama"
+            },
+            {
+                id: 5,
+                title: "The Shawshank Redemption",
+                rating: 9.3,
+                poster: "https://originalvintagemovieposters.com/wp-content/uploads/2015/05/Shawshank-Redemption-3205LB.jpg",
+                description: "A moving story of hope and friendship within the walls of a brutal prison.",
+                year: "1994",
+                genre: "Drama"
+            },
+            {
+                id: 6,
+                title: "Spider-Man: Into the Spider-Verse",
+                rating: 8.4,
+                poster: "https://wallpapers.com/images/hd/spider-man-into-the-spider-verse-cool-poster-wnb6jid6d3rhlanc.jpg",
+                description: "A visually stunning animated adventure across multiple universes of Spider-Men and women.",
+                year: "2018",
+                genre: "Animation, Action, Adventure"
+            }
+        ];
 
         // Save configuration
         saveConfigBtn.addEventListener('click', function() {
@@ -553,18 +639,27 @@
             if (savedUrl && savedKey) {
                 serverUrlInput.value = savedUrl;
                 apiKeyInput.value = savedKey;
-                configSection.style.display = 'none';
-                moviesSection.style.display = 'block';
+                JELLYFIN_BASE_URL = savedUrl;
+                JELLYFIN_API_KEY = savedKey;
                 return true;
             }
             return false;
         }
 
-        // Fetch movies from Jellyfin
+        // Show configuration panel
+        function showConfig() {
+            configSection.style.display = 'block';
+            moviesSection.style.display = 'none';
+            configStatus.textContent = '';
+            return false;
+        }
+
+        // Fetch movies from Jellyfin with enhanced metadata
         async function fetchMoviesFromJellyfin() {
             try {
                 // Show loading indicator
                 loadingIndicator.style.display = 'block';
+                loadingIndicator.textContent = 'Connecting to Jellyfin server...';
                 
                 // Fix URL format
                 let baseUrl = JELLYFIN_BASE_URL;
@@ -572,8 +667,8 @@
                     baseUrl = baseUrl.slice(0, -1);
                 }
                 
-                // Jellyfin API endpoint for getting movies
-                const endpoint = `${baseUrl}/Items?Recursive=true&IncludeItemTypes=Movie&Fields=PrimaryImageAspectRatio,MediaSources,Overview&StartIndex=0`;
+                // Enhanced fields to get more metadata including genres and cast
+                const endpoint = `${baseUrl}/Items?Recursive=true&IncludeItemTypes=Movie&Fields=PrimaryImageAspectRatio,MediaSources,Overview,Genres,People,ProductionYear,OfficialRating&StartIndex=0`;
                 
                 const response = await fetch(endpoint, {
                     headers: {
@@ -590,37 +685,46 @@
                 // Hide loading indicator
                 loadingIndicator.style.display = 'none';
                 
-                return data.Items.map(item => ({
-                    id: item.Id,
-                    title: item.Name,
-                    rating: item.CommunityRating || Math.random() * 3 + 7, // Fallback if no rating
-                    poster: item.ImageTags && item.ImageTags.Primary 
-                        ? `${baseUrl}/Items/${item.Id}/Images/Primary` 
-                        : 'https://via.placeholder.com/250x350/1a1a2e/8a2be2?text=No+Poster',
-                    description: item.Overview || 'No description available.',
-                    link: `${baseUrl}/web/index.html#!/details?id=${item.Id}&serverId=${item.ServerId}`
-                }));
+                // Hide local mode notice since we successfully connected to Jellyfin
+                localModeNotice.style.display = 'none';
+                
+                return data.Items.map(item => {
+                    // Extract cast information (first 3 actors)
+                    const cast = item.People 
+                        ? item.People
+                            .filter(person => person.Type === 'Actor')
+                            .slice(0, 3)
+                            .map(person => person.Name)
+                            .join(', ')
+                        : '';
+                    
+                    // Extract genres
+                    const genres = item.Genres ? item.Genres.join(', ') : '';
+                    
+                    return {
+                        id: item.Id,
+                        title: item.Name,
+                        rating: item.CommunityRating || Math.random() * 3 + 7,
+                        poster: item.ImageTags && item.ImageTags.Primary 
+                            ? `${baseUrl}/Items/${item.Id}/Images/Primary` 
+                            : 'https://via.placeholder.com/250x350/1a1a2e/8a2be2?text=No+Poster',
+                        description: item.Overview || 'No description available.',
+                        year: item.ProductionYear || 'Unknown',
+                        genre: genres,
+                        cast: cast,
+                        link: `${baseUrl}/web/index.html#!/details?id=${item.Id}&serverId=${item.ServerId}`
+                    };
+                });
             } catch (error) {
                 console.error('Error fetching movies from Jellyfin:', error);
-                loadingIndicator.innerHTML = `<div class="error">
-                    Failed to load movies from Jellyfin server.<br><br>
-                    Common issues:<br>
-                    - Mixed Content error (HTTPS site accessing HTTP server)<br>
-                    - Server not accessible from the internet<br>
-                    - Incorrect server URL or API key<br><br>
-                    <button onclick="showConfig()" style="background: #8a2be2; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">
-                        Update Server Configuration
-                    </button>
-                </div>`;
-                return [];
+                
+                // Show local mode notice
+                localModeNotice.style.display = 'block';
+                
+                // Use demo data as fallback
+                loadingIndicator.style.display = 'none';
+                return demoMovies;
             }
-        }
-
-        // Show configuration panel
-        function showConfig() {
-            configSection.style.display = 'block';
-            moviesSection.style.display = 'none';
-            configStatus.textContent = '';
         }
 
         // Initialize the carousel with movies
@@ -637,21 +741,37 @@
             movies.forEach(movie => {
                 const movieCard = document.createElement('div');
                 movieCard.className = 'movie-card';
+                
+                // Create meta information text
+                const metaInfo = [];
+                if (movie.year && movie.year !== 'Unknown') metaInfo.push(movie.year);
+                if (movie.genre) metaInfo.push(movie.genre);
+                
                 movieCard.innerHTML = `
                     <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/250x350/1a1a2e/8a2be2?text=No+Poster'">
                     <div class="movie-info">
                         <h3 class="movie-title">${movie.title}</h3>
                         <div class="movie-rating">⭐ ${movie.rating.toFixed(1)}/10</div>
+                        ${metaInfo.length > 0 ? `<div class="movie-meta">${metaInfo.join(' • ')}</div>` : ''}
                     </div>
                     <div class="movie-overlay">
                         <h3>${movie.title}</h3>
                         <p class="movie-description">${movie.description}</p>
+                        ${movie.cast ? `<div class="movie-meta"><strong>Cast:</strong> ${movie.cast}</div>` : ''}
+                        ${movie.genre ? `<div class="movie-meta"><strong>Genre:</strong> ${movie.genre}</div>` : ''}
                     </div>
                 `;
-                // Add click event to redirect to the movie's Jellyfin page
+                
+                // Add click event to redirect to the movie's Jellyfin page or show details
                 movieCard.addEventListener('click', () => {
-                    window.open(movie.link, '_blank');
+                    if (movie.link && movie.link.includes('jellyfin')) {
+                        window.open(movie.link, '_blank');
+                    } else {
+                        // For demo movies, just show an alert
+                        alert(`Movie: ${movie.title}\n\n${movie.description}\n\nYear: ${movie.year}\nGenre: ${movie.genre}\n\nTo watch this movie, configure your Jellyfin server.`);
+                    }
                 });
+                
                 movieCarousel.appendChild(movieCard);
             });
         }
@@ -665,7 +785,9 @@
             }
             
             const filteredMovies = allMovies.filter(movie => 
-                movie.title.toLowerCase().includes(searchTerm)
+                movie.title.toLowerCase().includes(searchTerm) ||
+                (movie.genre && movie.genre.toLowerCase().includes(searchTerm)) ||
+                (movie.cast && movie.cast.toLowerCase().includes(searchTerm))
             );
             
             initializeCarousel(filteredMovies);
@@ -692,11 +814,10 @@
         }
 
         // Start the application
-        if (!loadConfiguration()) {
-            // Show configuration panel if no saved configuration
-            configSection.style.display = 'block';
-            moviesSection.style.display = 'none';
+        if (loadConfiguration()) {
+            initializePage();
         } else {
+            // No saved configuration, use demo data
             initializePage();
         }
     </script>
