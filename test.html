@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zex.mp4 - Cinematic Experience</title>
+    <style>
+        /* CSS - Same as before */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a16;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            background: linear-gradient(to bottom, #0a0a16, rgba(10, 10, 22, 0.8));
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: rgba(25, 25, 45, 0.8);
+            border-radius: 30px;
+            padding: 8px 15px;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-container:focus-within {
+            border-color: #8a2be2;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 100%;
+            padding: 5px 10px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-container i {
+            color: #8a2be2;
+            margin-right: 5px;
+        }
+
+        .hero {
+            padding: 60px 5%;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(138, 43, 226, 0.2), transparent 60%);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #b8b8d0;
+        }
+
+        .carousel-section {
+            padding: 30px 5% 60px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            margin-left: 15px;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0 30px;
+            scrollbar-width: none; 
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none; 
+        }
+
+        .movie-card {
+            flex: 0 0 auto;
+            width: 250px;
+            background: rgba(25, 25, 45, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.3);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-rating {
+            color: #ffcc00;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .movie-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 22, 0.9);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+
+        .movie-card:hover .movie-overlay {
+            opacity: 1;
+        }
+
+        .movie-description {
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 70%;
+            overflow: hidden;
+        }
+
+        .movie-details {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(138, 43, 226, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+        }
+
+        .back-button:hover {
+            background: rgba(138, 43, 226, 0.4);
+            transform: translateX(-5px);
+        }
+
+        .movie-details-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .movie-details-poster {
+            flex: 0 0 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-details-poster img {
+            width: 100%;
+            display: block;
+        }
+
+        .movie-details-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .movie-details-title {
+            font-size: 36px;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .movie-details-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #ffcc00;
+        }
+
+        .movie-details-description {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #b8b8d0;
+        }
+
+        footer {
+            background: rgba(10, 10, 22, 0.9);
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #8a2be2;
+        }
+
+        .copyright {
+            color: #6c6c8a;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .movie-card {
+                width: 200px;
+            }
+
+            .movie-poster {
+                height: 280px;
+            }
+
+            .movie-details-container {
+                flex-direction: column;
+            }
+
+            .movie-details-poster {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .movie-card {
+                width: 160px;
+            }
+
+            .movie-poster {
+                height: 220px;
+            }
+
+            .movie-title {
+                font-size: 16px;
+            }
+        }
+
+        .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(25, 25, 45, 0.8);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .scroll-btn:hover {
+            opacity: 1;
+            background: rgba(138, 43, 226, 0.8);
+        }
+
+        .scroll-left {
+            left: 10px;
+        }
+
+        .scroll-right {
+            right: 10px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #6c6c8a;
+            font-size: 18px;
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #8a2be2;
+            font-size: 18px;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #ff3333;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Zex.mp4</div>
+        <div class="search-container">
+            <i>$</i>
+            <input type="text" id="searchInput" placeholder="Search for movies...">
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Discover Your Next Favorite Movie</h1>
+        <p>Explore our curated collection of cinematic masterpieces, from timeless classics to modern blockbusters.</p>
+    </section>
+
+    <!-- Movie Carousel Section -->
+    <section class="carousel-section">
+        <h2 class="section-title">Featured Movies</h2>
+        <div class="carousel-container">
+            <button class="scroll-btn scroll-left">❮</button>
+            <div class="carousel" id="movieCarousel">
+                <div class="loading" id="loadingIndicator">
+                    Loading movies from Jellyfin...
+                </div>
+                <!-- Movie cards will be generated by JavaScript -->
+            </div>
+            <button class="scroll-btn scroll-right">❯</button>
+        </div>
+        <div class="no-results" id="noResults">
+            No movies found matching your search.
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Zex.mp4</div>
+        <div class="footer-links">
+          <!--
+            <a href="#">Home</a>
+            <a href="#">Movies</a>
+            <a href="#">TV Shows</a>
+            <a href="#">My List</a>
+            <a href="#">About</a>
+            -->
+        </div>
+        <div class="copyright">© 2025 Zex.mp4. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Configuration
+        const JELLYFIN_API_KEY = 'd9d10f277bae453196b691ec31061984';
+        
+        
+        const JELLYFIN_BASE_URL = 'http://192.168.1.71:8096/';
+        
+        // Global variable to store all movies
+        let allMovies = [];
+
+        // DOM elements
+        const movieCarousel = document.getElementById('movieCarousel');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const scrollLeftBtn = document.querySelector('.scroll-left');
+        const scrollRightBtn = document.querySelector('.scroll-right');
+
+        // Fetch movies from Jellyfin
+        async function fetchMoviesFromJellyfin() {
+            try {
+                // Show loading indicator
+                loadingIndicator.style.display = 'block';
+                
+                // Jellyfin API endpoint for getting movies
+                const endpoint = `${JELLYFIN_BASE_URL}/Items?Recursive=true&IncludeItemTypes=Movie&Fields=PrimaryImageAspectRatio,MediaSources,Overview&StartIndex=0`;
+                
+                const response = await fetch(endpoint, {
+                    headers: {
+                        'X-Emby-Token': JELLYFIN_API_KEY
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Hide loading indicator
+                loadingIndicator.style.display = 'none';
+                
+                return data.Items.map(item => ({
+                    id: item.Id,
+                    title: item.Name,
+                    rating: item.CommunityRating || Math.random() * 3 + 7, // Fallback if no rating
+                    poster: item.ImageTags && item.ImageTags.Primary 
+                        ? `${JELLYFIN_BASE_URL}/Items/${item.Id}/Images/Primary` 
+                        : 'https://via.placeholder.com/250x350/1a1a2e/8a2be2?text=No+Poster',
+                    description: item.Overview || 'No description available.',
+                    link: `${JELLYFIN_BASE_URL}/web/index.html#!/details?id=${item.Id}&serverId=${JELLYFIN_BASE_URL.split('/').pop()}`
+                }));
+            } catch (error) {
+                console.error('Error fetching movies from Jellyfin:', error);
+                loadingIndicator.innerHTML = `<div class="error">Failed to load movies. Please check your Jellyfin server connection.</div>`;
+                return [];
+            }
+        }
+
+        // Initialize the carousel with movies
+        function initializeCarousel(movies) {
+            movieCarousel.innerHTML = '';
+            
+            if (movies.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/250x350/1a1a2e/8a2be2?text=No+Poster'">
+                    <div class="movie-info">
+                        <h3 class="movie-title">${movie.title}</h3>
+                        <div class="movie-rating">⭐ ${movie.rating.toFixed(1)}/10</div>
+                    </div>
+                    <div class="movie-overlay">
+                        <h3>${movie.title}</h3>
+                        <p class="movie-description">${movie.description}</p>
+                    </div>
+                `;
+                // Add click event to redirect to the movie's Jellyfin page
+                movieCard.addEventListener('click', () => {
+                    window.location.href = movie.link;
+                });
+                movieCarousel.appendChild(movieCard);
+            });
+        }
+
+        // Filter movies based on search
+        function filterMovies() {
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm === '') {
+                initializeCarousel(allMovies);
+                return;
+            }
+            
+            const filteredMovies = allMovies.filter(movie => 
+                movie.title.toLowerCase().includes(searchTerm)
+            );
+            
+            initializeCarousel(filteredMovies);
+        }
+
+        // Scroll carousel
+        function scrollCarousel(direction) {
+            const scrollAmount = 300;
+            movieCarousel.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', filterMovies);
+        scrollLeftBtn.addEventListener('click', () => scrollCarousel('left'));
+        scrollRightBtn.addEventListener('click', () => scrollCarousel('right'));
+
+        // Initialize the page
+        async function initializePage() {
+            allMovies = await fetchMoviesFromJellyfin();
+            initializeCarousel(allMovies);
+        }
+
+        // Start the application
+        initializePage();
+    </script>
+</body>
+</html>
